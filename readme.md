@@ -1,4 +1,5 @@
 # Campbell Scientific Data Formats
+[![Build Status](https://travis-ci.org/mlt/csdf.svg?branch=master)](https://travis-ci.org/mlt/csdf)
 
 ## About
 This R package provides rudimentary methods to deal with data formats (TOA5 only
