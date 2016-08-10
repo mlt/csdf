@@ -10,7 +10,7 @@ Imports:
     utils, methods
 Suggests:
     ggplot2, reshape2, gridExtra, knitr,
-    rmarkdown, testthat (>= 1.0.1)
+    rmarkdown, testthat (>= 1.0.1), covr
 VignetteBuilder: knitr
 License: AGPL-3
 LazyData: TRUE
