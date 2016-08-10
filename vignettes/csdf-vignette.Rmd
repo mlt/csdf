@@ -1,0 +1,65 @@
+---
+title: "Campbell Scientific Data Formats package"
+author: "Mikhail Titov"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Campbell Scientific Data Formats package}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+# About
+
+This R package provides rudimentary methods for import/export of sensor data in formats typically used with LoggerNet software from Campbell Scientific.
+
+# Importing data
+
+A fixed time zone is used with data loggers quite often to minimize headache due to clock drift and its consequences. To make sure no unintended time zone conversion takes place, set some fixed time zone explicitly.
+
+TOA5 (Table Oriented Ascii 5) format is the only one supported at the moment. To import data, use read.toa5 function.
+
+```{r}
+library(csdf)
+Sys.setenv(TZ='GMT')
+fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
+obj <- read.toa5(fpath)
+```
+
+This creates an S4 object of class csdf. No name sanitation takes place. Use backquotes for array related column names that contain parenthesis.
+
+You can check common things with
+```{r comment=NA}
+summary(obj)
+```
+
+Data for `TIMESTAMP` as well as other columns with names ending either on `_TMx` or `_TMn` are loaded as POSIXct.
+
+# Working with csdf object
+
+## Slots
+
+One may directly access @data slot of csdf object. It contains the bulk data. Another useful slot is @variables that contains units and processing instructions used in CR Basic code.
+
+```{r fig.width=4,fig.height=3}
+plot(`AirT_Max` ~ time,
+     within(obj@data, {
+       time <- as.POSIXct(strftime(AirT_TMx, "%H:%M:%S"), format="%H:%M:%S")
+     }))
+```
+
+## Convenience functions
+
+There are some convenience functions provided to cast (coerce) csdf object and to plot its content. One may use `as(obj, "data.frame")` or equivalently `as.data.frame(obj)` in place of `obj@data`.
+
+A quick plot using ggplot2 package can be produced with
+```{r fig.width=7.5,fig.height=8}
+plot(obj, ncol=2, meta=TRUE)
+```
+
+## Saving csdf objects
+
+One may save csdf objects directly to TOA5 format with write.toa5 function.
+
+```{r eval=FALSE}
+write.toa5(obj, "elsewhere.dat")
+```
