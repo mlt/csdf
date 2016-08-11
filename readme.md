@@ -1,7 +1,7 @@
 # Campbell Scientific Data Formats
 [![Build Status](https://travis-ci.org/mlt/csdf.svg?branch=master)](https://travis-ci.org/mlt/csdf)
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mlt/csdf?branch=master&svg=true)](https://ci.appveyor.com/project/mlt/csdf)
 
-## About
 This R package provides rudimentary methods to deal with data formats (TOA5 only
 for now) used by LoggerNet software from Campbell Scientific.
 
@@ -12,6 +12,7 @@ library(csdf)
 Sys.setenv(TZ='GMT')
 fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
 obj <- read.toa5(fpath)
+summary(obj)
 plot(obj)
 plot(`AirT_Max` ~ time,
      within(obj@data, {
