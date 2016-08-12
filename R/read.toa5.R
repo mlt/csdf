@@ -27,7 +27,8 @@
 #' fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
 #' obj <- read.toa5(fpath)
 read.toa5 <- function(file) {
-  meta <- utils::read.csv(file, FALSE, col.names=meta.names, nrows=1)
+  meta <- utils::read.csv(file, FALSE, col.names=c('type', meta.names), nrows=1)
+  stopifnot(meta[1, "type"] == "TOA5")
   header <- utils::read.csv(file, TRUE, row.names=variables.row.names,
                             nrows=2, skip = 1, check.names = FALSE)
   vars <- names(header)
@@ -36,5 +37,5 @@ read.toa5 <- function(file) {
   colClasses <- `names<-`(rep("POSIXct", len), vars[idx])
   dat <- utils::read.csv(file, FALSE, skip = 4, stringsAsFactors=FALSE, na.strings = "NAN",
                   check.names = FALSE, col.names = vars, colClasses = colClasses)
-  new("csdf", data=dat, variables=header, meta=meta)
+  new("csdf", data=dat, variables=header, meta=meta[,-1])
 }

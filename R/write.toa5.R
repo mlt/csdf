@@ -18,7 +18,7 @@ write.toa5 <- function(x, file="") {
   # make sure we aren't messing with column order
   stopifnot(names(x@data) == names(out))
 
-  write.table(format(x@meta), file, row.names = FALSE, col.names = FALSE, sep=",")
+  write.table(c("TOA5", format(x@meta)), file, row.names = FALSE, col.names = FALSE, sep=",")
   suppressWarnings( write.csv(x@variables, file, TRUE, row.names=FALSE) )
   write.table(out, file, TRUE, row.names=FALSE, col.names=FALSE, sep=",", na="\"NAN\"")
 }

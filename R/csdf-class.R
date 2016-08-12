@@ -1,5 +1,5 @@
-meta.names <- c("type", "station", "model", "serial", "os", "program", "signature", "table")
-variables.row.names <- c("units", "pi")
+meta.names <- c("station", "model", "serial", "os", "dld", "signature", "table")
+variables.row.names <- c("units", "process")
 
 #' Check csdf object validity
 #'
