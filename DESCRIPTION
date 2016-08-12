@@ -5,9 +5,10 @@ Version: 0.1.0
 Authors@R: person("Mikhail", "Titov", email = "mlt@gmx.us",
   role = c("aut", "cre"))
 Description: Read and write TOA5 and alike formats along with extended header.
-    Only Table Oriented Ascii 5 is supported for now.
+    Read/write for Table Oriented Ascii 5 is fully supported.
+    CSIXML is supported for reading only at the moment.
 Imports:
-    utils, methods
+    utils, methods, XML
 Suggests:
     ggplot2, reshape2, gridExtra, knitr,
     rmarkdown, testthat (>= 1.0.1), covr
