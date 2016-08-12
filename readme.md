@@ -14,7 +14,7 @@ Sys.setenv(TZ='GMT')
 fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
 obj <- read.toa5(fpath)
 summary(obj)
-plot(obj)
+grid::grid.draw( plot(obj) )
 plot(`AirT_Max` ~ time,
      within(obj@data, {
        time <- as.POSIXct(strftime(AirT_TMx, "%H:%M:%S"), format="%H:%M:%S")

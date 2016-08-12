@@ -18,13 +18,27 @@
 
 \item{meta}{whether to include metadata from TOA5 header on a plot}
 }
+\value{
+An object with S3 classes \code{\link[gtable]{gtable}},
+  \code{\link{gTree}}, \code{\link{grob}}, and \code{gDesc}.
+
+  You can actually plot it with \code{\link{grid.draw}}. Provided \emph{p} is
+  the result, you can use \code{max(p$grobs[[2]]$layout$t)} to assess the
+  number of panes vertically if \emph{meta} is \code{TRUE} and
+  \code{max(p$layout$t)} otherwise when deciding on the size of the
+  device/image to plot on so panes aren't crammed.
+}
 \description{
-A quick plotting routine to visualize TOA5 content. It requires reshape2, ggplot2, and gridExtra packages.
+A quick plotting routine to visualize TOA5 content. It requires reshape2,
+ggplot2, and gridExtra packages.
 }
 \examples{
 Sys.setenv(TZ='GMT')
 fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
 obj <- read.toa5(fpath)
-plot(obj)
+# call plot on csdf
+p <- plot(obj)
+# call grid.draw on gTree
+grid::grid.draw(p)
 }
 

@@ -1,19 +1,32 @@
 #' Plot csdf object
 #'
-#' A quick plotting routine to visualize TOA5 content. It requires reshape2, ggplot2, and gridExtra packages.
+#' A quick plotting routine to visualize TOA5 content. It requires reshape2,
+#' ggplot2, and gridExtra packages.
 #'
 #' @param x a \code{\link{csdf}} object for quick plotting
 #' @param y ignored
 #' @param ... ignored
 #' @param ncol number of columns to arrange plots into
 #' @param meta whether to include metadata from TOA5 header on a plot
+#'
+#' @return An object with S3 classes \code{\link[gtable]{gtable}},
+#'   \code{\link{gTree}}, \code{\link{grob}}, and \code{gDesc}.
+#'
+#'   You can actually plot it with \code{\link{grid.draw}}. Provided \emph{p} is
+#'   the result, you can use \code{max(p$grobs[[2]]$layout$t)} to assess the
+#'   number of panes vertically if \emph{meta} is \code{TRUE} and
+#'   \code{max(p$layout$t)} otherwise when deciding on the size of the
+#'   device/image to plot on so panes aren't crammed.
 #' @export
 #'
 #' @examples
 #' Sys.setenv(TZ='GMT')
 #' fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
 #' obj <- read.toa5(fpath)
-#' plot(obj)
+#' # call plot on csdf
+#' p <- plot(obj)
+#' # call grid.draw on gTree
+#' grid::grid.draw(p)
 setMethod("plot", signature(x="csdf", y="missing"), function(x, y, ..., ncol=2, meta=TRUE) {
   dummy <- sapply(c('reshape2', 'gridExtra', 'ggplot2'), function(package) {
     if (!requireNamespace(package))
@@ -44,7 +57,7 @@ setMethod("plot", signature(x="csdf", y="missing"), function(x, y, ..., ncol=2, 
   if (meta) {
     headerGrob <- gridExtra::tableGrob(x@meta, rows=NULL)
     heights <- grid::unit.c(grid::unit(3, "lines"), grid::unit(1, "npc")-grid::unit(3, "lines"))
-    gridExtra::grid.arrange(headerGrob, plots, ncol=1, heights=heights)
+    gridExtra::arrangeGrob(headerGrob, plots, ncol=1, heights=heights)
   } else
-    grid::grid.draw(plots)
+    plots
 })

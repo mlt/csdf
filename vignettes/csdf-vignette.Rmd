@@ -53,8 +53,10 @@ There are some convenience functions provided to cast (coerce) csdf object and t
 
 A quick plot using ggplot2 package can be produced with
 ```{r fig.width=7.5,fig.height=8}
-plot(obj, ncol=2, meta=TRUE)
+grid::grid.draw( plot(obj, ncol=2, meta=TRUE) )
 ```
+
+First, we call `plot` on *csdf* object, then `grid.draw` on *gtable*. We might be interested in internals of grob (gtable) object to assess number of panes when estimating device/image size to plot on. See ``?csdf::`plot,csdf,missing-method` `` for details.
 
 ## Saving csdf objects
 
