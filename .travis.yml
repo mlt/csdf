@@ -7,10 +7,8 @@ r:
  - release
  - devel
 
-# We want to use devel devtools to load packages so we can catch package
-# installation issues sooner rather than later.
 r_github_packages:
-  - mlt/csdf
+  - jimhester/covr
 
 # The git config settings are not setup on travis by default
 before_script:
@@ -20,14 +18,14 @@ before_script:
 # Only report coverage for the release version
 after_success:
 - test $TRAVIS_R_VERSION_STRING = "release" && Rscript -e 'covr::codecov()'
-- R CMD INSTALL --build csdf_0.1.0.tar.gz
+- R CMD INSTALL --build csdf_0.1.1.tar.gz
 deploy:
   provider: releases
   api_key:
     secure: "kKvg2mUuXhsf8iHHK4CkEg4FtkYI2S3J2thCsRJnh/3pVF/0XbveXoVTP3j26Kai/pJFEC4mvg5503xrMbRivGLjqZ6JqO3V/IGcLi8oXsdsr4Sb1aLBIsx3v1iP76hfpP+02o+BXsztocshBf6f9xJsxHm7bZD+FCOIkimh2Mc0Hor7rP4TDXdOtGK80sROaYan7XuGkt8Y8O2JykWbnAPHS+3ZKRWyIvsKuwoIYA4+/RI8T8xWyqNfob8IEQxRHrREvmjgkPzaOSNswwwXANLjshVgGRGie6jIBnj2Ronz8ocJPAi1nmh4yE+Ke8c9mHCA2wuz8maa/chQyfAalG4ppdWGLzxWzqPBm8JhT63RDX+ahKuJptWKPdBuSN3PM7Rx6ZNn1NCgXzsmJIcUCT4J/4tluGCgSNiN8Tm6lbh1bL175rrvZWaeOvaOqeL3iFMbeTcaSeeICcoDGtOnL7Z3dyuM9FnUyzpIk63Ix1FW0TfjaOk6E3GusH1D7A7c8AqEZHmmmg/2wcLAtp0sRaOXqJxs/kqBDSOxVfneKyNWURQH2wZKfLA5yUlyAiO3ttRKyJiQLdbkYJA3oMTFKkoaDgPeFqpH7ZG2UAXvj3ichFoPPlsijf4yGKL3VJ/IDSxAHfO87dBMihu+El4Aljc0r3c/EiA+FOZFWSl2lDM="
   file:
-    - "csdf_0.1.0.tar.gz"
-    - "csdf_0.1.0_R_x86_64-pc-linux-gnu.tar.gz"
+    - "csdf_0.1.1.tar.gz"
+    - "csdf_0.1.1_R_x86_64-pc-linux-gnu.tar.gz"
   skip_cleanup: true
   on:
     tags: true

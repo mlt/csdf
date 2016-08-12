@@ -1,7 +1,7 @@
 Package: csdf
 Type: Package
 Title: Campbell Scientific Data Formats
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: person("Mikhail", "Titov", email = "mlt@gmx.us",
   role = c("aut", "cre"))
 Description: Read and write TOA5 and alike formats along with extended header.
@@ -11,7 +11,7 @@ Imports:
     utils, methods, XML
 Suggests:
     ggplot2, reshape2, gridExtra, knitr,
-    rmarkdown, testthat (>= 1.0.1), covr
+    rmarkdown, testthat (>= 1.0.1)
 VignetteBuilder: knitr
 License: AGPL-3
 LazyData: TRUE
