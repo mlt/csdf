@@ -37,10 +37,11 @@ read.csixml <- function(file) {
   len <- length(idx)
   colClasses <- `names<-`(rep("numeric", length=length(vars)), vars)
   colClasses[idx] <- "iso8601"
-  # colClasses <- `names<-`(rep("iso8601", len), vars[idx])
 
-  dat <- XML::xmlToDataFrame(colClasses=colClasses, homogeneous=TRUE,
-                             nodes=XML::getNodeSet(doc, "//data/r"))
+  suppressWarnings(# In asMethod(object) : NAs introduced by coercion
+    dat <- XML::xmlToDataFrame(colClasses=colClasses, homogeneous=TRUE,
+                               nodes=XML::getNodeSet(doc, "//data/r"))
+  )
   names(dat) <- vars
 
   left <- with(as.data.frame(

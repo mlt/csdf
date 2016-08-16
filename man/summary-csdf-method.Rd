@@ -11,8 +11,9 @@
 \item{object}{\code{\linkS4class{csdf}} object to get summary for}
 }
 \value{
-a \code{\link{list}} summarizing stored data with \code{summary.csdf} \code{\link{class}} assigned to trigger
-\code{\link{print.summary.csdf}} S3 method.
+a \code{\link{list}} summarizing stored data with \code{summary.csdf}
+  \code{\link{class}} assigned to trigger \code{\link{print.summary.csdf}} S3
+  method.
 
 List components are:
 \describe{
