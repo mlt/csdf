@@ -1,4 +1,4 @@
-context("CSIXML reading")
+context("CSIXML")
 
 Sys.setenv(TZ='GMT')
 fpath <- system.file("extdata", "CSIXML_Station_Daily.dat", package="csdf")
@@ -12,4 +12,8 @@ test_that("valid csdf object created", {
 
 test_that("idential to source TOA5", {
   expect_output_file(write.toa5(obj), fpath.toa5)
+})
+
+test_that("written file is identical to original", {
+  expect_output_file(write.csixml(obj), fpath)
 })
