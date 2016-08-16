@@ -7,4 +7,15 @@ obj <- read.toa5(fpath)
 test_that("valid csdf object created", {
   expect_s4_class(obj, "csdf")
   expect_true(validObject(obj))
+  expect_true(validObject.csdf(obj))
+})
+
+test_that("coercion to data.frame works", {
+  expect_s3_class(as.data.frame(obj), "data.frame")
+})
+
+test_that("summary works", {
+  s <- summary(obj)
+  expect_s3_class(s, c("list", "summary.csdf"))
+  expect_output(print(s), "Data coverage is from")
 })

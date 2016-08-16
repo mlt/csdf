@@ -17,3 +17,10 @@ test_that("idential to source TOA5", {
 test_that("written file is identical to original", {
   expect_output_file(write.csixml(obj), fpath)
 })
+
+test_that("Can write files", {
+  f <- tempfile()
+  on.exit(unlink(f))
+  expect_null( write.csixml(obj, f) )
+  expect_null( write.csixml(obj, file(f)) )
+})
