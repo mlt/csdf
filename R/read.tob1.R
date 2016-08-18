@@ -33,17 +33,22 @@ read.tob1 <- function(file, digits=6, endian="little") {
                          stringsAsFactors=FALSE)
   sizes <- data.frame(type=c("LONG", "ULONG", "IEEE4", "IEEE8", "SecNano", "BOOL"),
                       length=c(4, 4, 4, 8, 8, 1), stringsAsFactors=FALSE)
-  row.length <- with(merge(data.frame(type=as.character(header['type',])), sizes),
-                     sum(length))
+  m <- merge(data.frame(type=as.character(header['type',])), sizes)
+  if("ULONG" %in% m$type)
+    warning("ULONG will be converted to numeric. R has 32bit signed integers only!")
+  row.length <- sum(m$length)
   pos <- seek(file.text)
   file.bin <- file(file, "rb")
   seek(file.bin, pos)
-  nrow.max <- (file.length-pos)/row.length
+  nrow.max <- (file.length-pos) %/% row.length
+  r <- (file.length-pos) %% row.length
+  if(r > 0)
+    warning(sprintf("%d bytes left beyond last record #%d", r, nrow.max))
   i <- 1
   repeat {
     row <- lapply(setNames(nm=names(header)), function(t) {
       switch(as.character(header['type', t]),
-             ULONG=readBin(file.bin, integer(), size=4, endian=endian),
+             ULONG=read.ulong(file.bin, endian=endian),
              LONG=readBin(file.bin, integer(), size=4, endian=endian),
              IEEE4={
                fp <- readBin(file.bin, double(), size=4, endian=endian)
@@ -55,8 +60,8 @@ read.tob1 <- function(file, digits=6, endian="little") {
              },
              BOOL=readBin(file.bin, logical(), size=1),
              SecNano={
-               secs <- readBin(file.bin, integer(), size=4, endian=endian)
-               nano <- readBin(file.bin, integer(), size=4, endian=endian)
+               secs <- read.ulong(file.bin, endian=endian)
+               nano <- read.ulong(file.bin, endian=endian)
                as.POSIXct(secs + nano/1e9, "UTC", origin="1990-01-01")
              },
              # TODO: FP2 and ASCII(len)
