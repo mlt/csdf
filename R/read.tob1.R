@@ -21,17 +21,25 @@
 #' write.toa5(obj, "somewhere.dat")
 #' }
 read.tob1 <- function(file, digits=6, endian="little") {
-  meta <- utils::read.csv(file, FALSE, col.names=c('type', meta.names), nrows=1)
-  stopifnot(meta[1, "type"] == "TOB1")
+  file.length <- file.size(file)
   file.text <- file(file, "r")
+  meta <- utils::read.csv(file.text, FALSE, col.names=c('type', meta.names), nrows=1)
+  stopifnot(meta[1, "type"] == "TOB1")
   header <- utils::read.csv(file.text, TRUE, row.names=c(variables.row.names, "type"),
-                            nrows=3, skip = 1, check.names = FALSE)
+                            nrows=3, check.names = FALSE, stringsAsFactors=FALSE)
   if (all(c("SECONDS", "NANOSECONDS") == names(header)[1:2]))
     header <- data.frame(TIMESTAMP=c("TS", "", "SecNano"),
-                         header[, -(1:2)])
+                         header[, -(1:2)],
+                         stringsAsFactors=FALSE)
+  sizes <- data.frame(type=c("LONG", "ULONG", "IEEE4", "IEEE8", "SecNano", "BOOL"),
+                      length=c(4, 4, 4, 8, 8, 1), stringsAsFactors=FALSE)
+  row.length <- with(merge(data.frame(type=as.character(header['type',])), sizes),
+                     sum(length))
   pos <- seek(file.text)
   file.bin <- file(file, "rb")
   seek(file.bin, pos)
+  nrow.max <- (file.length-pos)/row.length
+  i <- 1
   repeat {
     row <- lapply(setNames(nm=names(header)), function(t) {
       switch(as.character(header['type', t]),
@@ -57,11 +65,15 @@ read.tob1 <- function(file, digits=6, endian="little") {
     })
     if (length(row[[1]]) == 0)
       break
-    # TODO: preallocate data.frame based on total fields size and file size
+    # TODO: preallocate data.frame outside of loop completely
+    # based on fields types
     if(exists("dat", inherits = FALSE))
-      dat[nrow(dat)+1,] <- as.data.frame(row)
-    else
+      dat[i,] <- as.data.frame(row)
+    else {
       dat <- as.data.frame(row)
+      dat[nrow.max, 1] <- NULL
+    }
+    i <- i+1
   }
   new("csdf", data=dat, variables=header[-3,], meta=meta[,-1])
 }
