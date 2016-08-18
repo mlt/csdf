@@ -3,8 +3,8 @@
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mlt/csdf?branch=master&svg=true)](https://ci.appveyor.com/project/mlt/csdf)
 [![Coverage Status](https://codecov.io/github/mlt/csdf/coverage.svg?branch=master)](https://codecov.io/github/mlt/csdf?branch=master)
 
-This R package provides rudimentary methods to deal with data formats (TOA5 and
-CSIXML only for now) used by LoggerNet software from Campbell Scientific.
+This R package provides rudimentary methods to deal with data formats (TOA5, CSIXML, and
+read-only TOB1 for now) used by LoggerNet software from Campbell Scientific.
 
 ## Synposis
 

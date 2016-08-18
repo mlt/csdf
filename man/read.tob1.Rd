@@ -4,10 +4,19 @@
 \alias{read.tob1}
 \title{Read Table Oriented Binary 1 file}
 \usage{
-read.tob1(file)
+read.tob1(file, digits = 6, endian = "little")
 }
 \arguments{
-\item{file}{a file name to read}
+\item{file}{the name of the file which the data are to be read from. It has
+to be a character string and cannot be a connection as mixed text & binary
+operations are involved.}
+
+\item{digits}{Number of significant digits to round floating point values to.
+Helpful if \code{\linkS4class{csdf}} is to be written into text based
+format like TOA5. See \code{\link{signif}}. Use \code{NULL} or \code{NA} if
+no rounding is necessary.}
+
+\item{endian}{Endianness for binary data. Should be always \code{"little"}.}
 }
 \value{
 an S4 class \code{\linkS4class{csdf}}
@@ -19,5 +28,8 @@ Read Table Oriented Binary 1 file
 Sys.setenv(TZ='GMT')
 fpath <- system.file("extdata", "TOB1_Station_Daily.dat", package="csdf")
 obj <- read.tob1(fpath)
+\dontrun{
+write.toa5(obj, "somewhere.dat")
+}
 }
 

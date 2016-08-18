@@ -19,3 +19,8 @@ test_that("summary works", {
   expect_s3_class(s, c("list", "summary.csdf"))
   expect_output(print(s), "Data coverage is from")
 })
+
+test_that("Can read from connection", {
+  f <- file(fpath)
+  expect_s4_class( read.toa5(f), "csdf" )
+})

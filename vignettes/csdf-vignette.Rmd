@@ -16,7 +16,7 @@ This R package provides rudimentary methods for import/export of sensor data in 
 
 A fixed time zone is used with data loggers quite often to minimize headache due to clock drift and its consequences. To make sure no unintended time zone conversion takes place, set some fixed time zone explicitly.
 
-TOA5 (Table Oriented Ascii 5) format is the only one supported at the moment. To import data, use read.toa5 function.
+Table Oriented Ascii 5 (TOA5), CSIXML, and a subset for Table Oriented Binary 1 (TOB1) formats are supported at the moment. To import data, use read.toa5 function and alike.
 
 ```{r}
 library(csdf)

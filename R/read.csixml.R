@@ -3,7 +3,9 @@ setAs("character", "iso8601", function(from) as.POSIXct(from, format="%Y-%m-%dT%
 
 #' Read Campbell Scientific XML
 #'
-#' @param file the name of the file to read
+#' @param file The name of the file containing the Campbell Scientific XML
+#'   contents. This can contain \~ which is expanded to the user's home
+#'   directory.
 #'
 #' @return an S4 class \code{\linkS4class{csdf}}
 #' @export

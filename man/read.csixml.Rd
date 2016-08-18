@@ -7,7 +7,9 @@
 read.csixml(file)
 }
 \arguments{
-\item{file}{the name of the file to read}
+\item{file}{The name of the file containing the Campbell Scientific XML
+contents. This can contain \~ which is expanded to the user's home
+directory.}
 }
 \value{
 an S4 class \code{\linkS4class{csdf}}

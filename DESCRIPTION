@@ -4,9 +4,10 @@ Title: Campbell Scientific Data Formats
 Version: 0.1.1
 Authors@R: person("Mikhail", "Titov", email = "mlt@gmx.us",
   role = c("aut", "cre"))
-Description: Read and write TOA5 and alike formats along with extended header.
-    Read/write for Table Oriented Ascii 5 is fully supported.
-    CSIXML is supported for reading only at the moment.
+Description: Read and write files used by LoggerNet software from Campbell Scientific.
+    This package includes read and write support for Table Oriented Ascii 5 (TOA5) and CSIXML formats.
+    Table Oriented Binary 1 (TOB1) files with certain subset of field can be read
+    but not written at the moment.
 Imports:
     utils, methods, XML
 Suggests:

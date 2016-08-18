@@ -11,6 +11,6 @@ test_that("valid csdf object created", {
   expect_true(validObject.csdf(obj))
 })
 
-test_that("idential to source TOA5", {
+test_that("identical to source TOA5", {
   expect_output_file(write.toa5(obj), fpath.toa5)
 })
