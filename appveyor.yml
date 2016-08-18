@@ -13,9 +13,7 @@ environment:
   WARNINGS_ARE_ERRORS: 1
   USE_RTOOLS: true
   R_VERSION: release
-  matrix:
-  - R_ARCH: x64
-    ARCH: i386
+  R_ARCH: x64
 
 install:
   ps: Bootstrap
@@ -28,9 +26,14 @@ build_script:
   - git config --global user.name "travis"
   - git config --global user.email "travis@example.org"
   - travis-tool.sh install_deps
+  - Rscript -e "library(devtools); build(binary=TRUE)"
+  - ren ..\csdf_0.1.1.zip vign.zip
 
+# This removes vignettes
 test_script:
   - travis-tool.sh run_tests
+  - del /Q /F csdf_0.1.1.zip
+  - ren ..\vign.zip csdf_0.1.1.zip
 
 on_failure:
   - 7z a failure.zip *.Rcheck\*

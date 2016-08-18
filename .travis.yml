@@ -19,6 +19,7 @@ before_script:
 after_success:
 - test $TRAVIS_R_VERSION_STRING = "release" && Rscript -e 'covr::codecov()'
 - R CMD INSTALL --build csdf_0.1.1.tar.gz
+
 deploy:
   provider: releases
   api_key:
