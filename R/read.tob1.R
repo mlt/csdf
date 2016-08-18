@@ -36,16 +36,22 @@ read.tob1 <- function(file, digits=6, endian="little") {
     row <- lapply(setNames(nm=names(header)), function(t) {
       switch(as.character(header['type', t]),
              ULONG=readBin(file.bin, integer(), size=4, endian=endian),
+             LONG=readBin(file.bin, integer(), size=4, endian=endian),
              IEEE4={
                fp <- readBin(file.bin, double(), size=4, endian=endian)
                ifelse(is.numeric(digits), signif(fp, 7), fp)
              },
+             IEEE8={
+               fp <- readBin(file.bin, double(), size=8, endian=endian)
+               ifelse(is.numeric(digits), signif(fp, 7), fp)
+             },
+             BOOL=readBin(file.bin, logical(), size=1),
              SecNano={
                secs <- readBin(file.bin, integer(), size=4, endian=endian)
                nano <- readBin(file.bin, integer(), size=4, endian=endian)
                as.POSIXct(secs + nano/1e9, "UTC", origin="1990-01-01")
              },
-             # TODO: IEEE8, FP2, LONG, BOOL, and ASCII(len)
+             # TODO: FP2 and ASCII(len)
              stop(sprintf("Unsupported data type: %s", t))
       )
     })
