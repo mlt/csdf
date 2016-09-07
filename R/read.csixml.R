@@ -10,13 +10,14 @@ setAs("character", "iso8601", function(from) as.POSIXct(from, format="%Y-%m-%dT%
 #' @return an S4 class \code{\linkS4class{csdf}}
 #' @export
 #'
-#' @importFrom XML xmlParse xmlToDataFrame xmlAttrs
 #'
 #' @examples
 #' Sys.setenv(TZ='GMT')
 #' fpath <- system.file("extdata", "CSIXML_Station_Daily.dat", package="csdf")
 #' obj <- read.csixml(fpath)
 read.csixml <- function(file) {
+  if(!requireNamespace("XML"))
+    stop("Failed to load XML")
   doc <- XML::xmlParse(file)
   meta <- with(XML::xmlToDataFrame(homogeneous=TRUE, nodes=XML::getNodeSet(doc, "//head/environment")),
                data.frame(station=`station-name`,

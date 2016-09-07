@@ -9,9 +9,9 @@ Description: Read and write files used by LoggerNet software from Campbell Scien
     Table Oriented Binary 1 (TOB1) files with certain subset of field can be read
     but not written at the moment.
 Imports:
-    utils, methods, XML
+    utils, methods
 Suggests:
-    ggplot2, reshape2, gridExtra, knitr,
+    ggplot2, reshape2, gridExtra, knitr, XML,
     rmarkdown, testthat (>= 1.0.1)
 VignetteBuilder: knitr
 License: AGPL-3
