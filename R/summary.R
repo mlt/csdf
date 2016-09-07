@@ -56,8 +56,11 @@ print.summary.csdf <- function(x, ...) {
         granularity, ' ', attr(granularity, "units"),
         '. There are', if (nogap) ' no' else '', ' gaps in data coverage.\n', sep="")
     if (!nogap)
-      cat("Gaps are at: ", format(gaps), "\n", sep="")
+      cat("Gaps are at: ", paste(gaps, collapse=", "), "\n", sep="")
     cat('There are', if (ts.ok) ' no' else '', ' issues with TIMESTAMP.\n', sep="")
-    cat('There are', if (rn.ok) ' no' else '', ' issues with RECORD.\n', sep="")
+    if(!is.na(rn.ok))
+      cat('There are', if (rn.ok) ' no' else '', ' issues with RECORD.\n', sep="")
+    else
+      cat('There is no RECORD counter.\n')
   })
 }
