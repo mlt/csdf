@@ -6,6 +6,8 @@
 #' @param x a \code{\link{csdf}} object for quick plotting
 #' @param y ignored
 #' @param ... ignored
+#' @param range timestamp range to plot, defaults to everything available
+#'   (1970-2037 years, see \link{DateTimeClasses})
 #' @param ncol number of columns to arrange plots into
 #' @param meta whether to include metadata from TOA5 header on a plot
 #'
@@ -24,16 +26,19 @@
 #' fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
 #' obj <- read.toa5(fpath)
 #' # call plot on csdf
-#' p <- plot(obj)
+#' p <- plot(obj, range=c("2014-05-01", "2014-06-01"))
 #' # call grid.draw on gTree
 #' grid::grid.draw(p)
-setMethod("plot", signature(x="csdf", y="missing"), function(x, y, ..., ncol=2, meta=TRUE) {
+setMethod("plot", signature(x="csdf", y="missing"),
+          function(x, y, ..., range=as.POSIXct(c("1970-01-01", "2037-12-31")), ncol=2, meta=TRUE) {
   dummy <- sapply(c('reshape2', 'gridExtra', 'ggplot2'), function(package) {
     if (!requireNamespace(package))
       stop(sprintf('The package %s is not installed', x))
   })
   idx <- which(!grepl("_TM[xn]$|^RECORD$", names(x@data)))
-  dat.long <- reshape2::melt(x@data[,idx], "TIMESTAMP")
+  dat.long <- reshape2::melt(
+    x@data[range[1] <= x@data$TIMESTAMP & x@data$TIMESTAMP <= range[2], idx],
+    "TIMESTAMP")
   combined <- merge(dat.long,
                     data.frame(variable=names(x@variables),
                                units=unlist(x@variables[1,])))

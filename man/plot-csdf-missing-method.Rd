@@ -5,7 +5,8 @@
 \alias{plot,csdf,missing-method}
 \title{Plot csdf object}
 \usage{
-\S4method{plot}{csdf,missing}(x, y, ..., ncol = 2, meta = TRUE)
+\S4method{plot}{csdf,missing}(x, y, ..., range = as.POSIXct(c("1970-01-01",
+  "2037-12-31")), ncol = 2, meta = TRUE)
 }
 \arguments{
 \item{x}{a \code{\link{csdf}} object for quick plotting}
@@ -13,6 +14,9 @@
 \item{y}{ignored}
 
 \item{...}{ignored}
+
+\item{range}{timestamp range to plot, defaults to everything available
+(1970-2037 years, see \link{DateTimeClasses})}
 
 \item{ncol}{number of columns to arrange plots into}
 
@@ -37,7 +41,7 @@ Sys.setenv(TZ='GMT')
 fpath <- system.file("extdata", "Station_Daily.dat", package="csdf")
 obj <- read.toa5(fpath)
 # call plot on csdf
-p <- plot(obj)
+p <- plot(obj, range=c("2014-05-01", "2014-06-01"))
 # call grid.draw on gTree
 grid::grid.draw(p)
 }
